@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 작성 폼</title>
+</head>
+
+<style>
+
+    .layout {
+        width: 500px;
+        margin: 40px auto 0;
+    }
+
+    .layout input {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 10px;
+    }
+
+    .layout textarea {
+        width: 100%;
+        min-height: 300px;
+        margin-top: 10px;
+    }
+
+    .layout p {
+        margin-bottom: 0px;
+    }
+</style>
+
+
+<body>
+<div class="layout">
+    <form action="/board/writedo" method="post">
+        <p>제목</p>
+        <input name="title" type="text">
+        <p>내용</p>
+        <textarea name="content"></textarea>
+        <button type="submit">작성 완료</button>
+    </form>
+</div>
+</body>
+</html>
