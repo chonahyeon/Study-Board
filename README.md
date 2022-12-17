@@ -2,6 +2,9 @@
 
 ---
 
+### 시연 영상
+![메인페이지 프로토타입](Document/BoardService.gif)
+
 ### 개발 환경
 * 개발 도구 : Intellij IDEA Ultimate
 * 개발 언어 : Java
