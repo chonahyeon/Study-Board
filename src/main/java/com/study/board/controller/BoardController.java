@@ -14,21 +14,30 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
     @GetMapping("/board/write")
-    public String boardWriteForm(){
+    public String boardWriteForm() {
         return "boardwrite";
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board){
+    public String boardWritePro(Board board) {
         boardService.write(board);
-
         return "";
     }
 
     @GetMapping("/board/list")
-    public String boardList(Model model){
+    public String boardList(Model model) {
         model.addAttribute("list", boardService.boardList());
         return "boardlist";
+    }
+
+    /**
+     * 접근 방법 : http://localhost:8080/board/view?id=3 ( id로 상세페이지 접근 )
+     */
+    @GetMapping("/board/view")
+    public String boardView(Model model,Integer id) {
+        model.addAttribute("article",boardService.boardView(id));
+        return "boardview";
     }
 }
