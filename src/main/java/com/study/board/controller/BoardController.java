@@ -27,9 +27,11 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board) {
+    public String boardWritePro(Board board, Model model) {
         boardService.write(board);
-        return "redirect:/board/list";
+        model.addAttribute("message", "글 작성이 완료되었습니다.");
+        model.addAttribute("redirectUrl", "/board/list");
+        return "message";
     }
 
     @GetMapping("/board/list")
@@ -42,13 +44,13 @@ public class BoardController {
      * 접근 방법 : http://localhost:8080/board/view?id=3 ( QueryString - id로 상세페이지 접근 )
      */
     @GetMapping("/board/view")
-    public String boardView(Model model,Integer id) {
-        model.addAttribute("article",boardService.boardView(id));
+    public String boardView(Model model, Integer id) {
+        model.addAttribute("article", boardService.boardView(id));
         return "boardview";
     }
 
     @GetMapping("/board/delete")
-    public String boardDelete(Integer id){
+    public String boardDelete(Integer id) {
         boardService.boardDelete(id);
         return "redirect:/board/list";
     }
@@ -57,21 +59,24 @@ public class BoardController {
      * 접근 방법 : http://localhost:8080/board/3 ( PathVariable 사용 - 바로 id 값으로 접근 )
      */
     @GetMapping("/board/modify/{id}")
-    public String boardModify(@PathVariable("id") Integer id, Model model){
+    public String boardModify(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("article",boardService.boardView(id));
+        model.addAttribute("article", boardService.boardView(id));
         return "boardmodify";
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id,Board board){
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) {
 
         Board oldBoard = boardService.boardView(id); // 기존 객체 불러오기
         // 기존 객체에 덮어씌우기
         oldBoard.setTitle(board.getTitle());
         oldBoard.setContent(board.getContent());
-
         boardService.write(oldBoard);
-        return "redirect:/board/list";
+
+        model.addAttribute("message", "글 수정이 완료되었습니다.");
+        model.addAttribute("redirectUrl", "/board/list");
+
+        return "message";
     }
 }
