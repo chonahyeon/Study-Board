@@ -1,23 +1,25 @@
 package com.study.board.controller;
 
 import com.study.board.entity.Board;
+import com.study.board.repository.BoardRepository;
 import com.study.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BoardController {
 
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private BoardRepository boardRepository;
 
     @GetMapping("/")
     public String boardMainPage() {
@@ -42,12 +44,14 @@ public class BoardController {
      * page와 size를 넘겨줄 수 있다. ( @pageableDefault )
      */
     @GetMapping("/board/list")
-    public String boardList(Model model, Pageable pageable) {
-        Page<Board> list = boardService.boardList(pageable);
+    public String boardList(Model model, Pageable pageable,
+                            @RequestParam(required = false,defaultValue = "") String searchText) {
+
+        Page<Board> list = boardRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
 
         int nowPage = list.getPageable().getPageNumber();
         int startPage = Math.max(nowPage - 2, 0);
-        int endPage = Math.min(nowPage + 3, list.getTotalPages()-1);
+        int endPage = Math.min(nowPage + 3, list.getTotalPages() - 1);
 
         model.addAttribute("list", list); // 변수 넘겨주기
         model.addAttribute("nowPage", nowPage);

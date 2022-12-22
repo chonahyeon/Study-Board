@@ -28,7 +28,16 @@
 </nav>
 
 <div class="layout">
-    <table class="table table-hover table-dark">
+
+    <form class="form-inline d-flex justify-content-end" method="GET" th:action="@{/board/list}">
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="searchText" class="sr-only">검색</label>
+            <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+        </div>
+        <button type="submit" class="btn btn-light mb-2">검색</button>
+    </form>
+
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">글번호</th>
@@ -46,22 +55,20 @@
         </tbody>
     </table>
 
-    <!--    <th:block th:each="page : ${#numbers.sequence(startPage,endPage)}">-->
-    <!--        <a th:if="${page != nowPage}" th:href="@{/board/list(page=${ page - 1 })}" th:text="${page}"></a>-->
-    <!--        <strong th:if="${page == nowPage}" th:text="${page}" style="color: blue"></strong>-->
-    <!--    </th:block>-->
-
     <nav>
         <ul class="pagination  justify-content-center">
             <li class="page-item" th:classappend="${0 == nowPage} ? 'disabled'">
-                <a class="page-link" href="#" th:href="@{/board/list(page=${nowPage - 1})}">Previous</a>
+                <a class="page-link" href="#"
+                   th:href="@{/board/list(page=${nowPage - 1},searchText=${param.searchText})}">Previous</a>
             </li>
             <li class="page-item" th:classappend="${page == nowPage} ? 'disabled'"
                 th:each="page : ${#numbers.sequence(startPage,endPage)}">
-                <a class="page-link" href="#" th:href="@{/board/list(page=${page})}" th:text="${page+1}">1</a>
+                <a class="page-link" href="#" th:href="@{/board/list(page=${page},searchText=${param.searchText})}"
+                   th:text="${page+1}">1</a>
             </li>
-            <li class="page-item" th:classappend="${ list.getTotalPages() == nowPage} ? 'disabled'">
-                <a class="page-link" href="#" th:href="@{/board/list(page=${nowPage + 1})}">Next</a>
+            <li class="page-item" th:classappend="${ list.getTotalPages()-1 == nowPage} ? 'disabled'">
+                <a class="page-link" href="#"
+                   th:href="@{/board/list(page=${nowPage + 1},searchText=${param.searchText})}">Next</a>
             </li>
         </ul>
     </nav>
