@@ -23,8 +23,10 @@
 - [X] 게시물 삭제 (D)
 - [X] 게시물 검색 기능
 - [ ] 로그인 기능
-  - [ ] 회원 테이블 생성
-  - [ ] 로그인 페이지 생성
+  - [X] 회원 테이블 생성
+  - [X] 접근 권한 테이블 생성
+  - [X] 로그인 페이지 생성
+  - [ ] 로그인 페이지와 회원 테이블 연동하기
 
 
 ### Board 테이블
@@ -32,8 +34,12 @@
 * **title** (VARCHAR(45),NN) : 게시물의 제목
 * **content** (TEXT,NN) : 게시물의 내용
 
-### Member 테이블
+### User 테이블
 * **id** (INT,PK,NN,AI) : id의 고유 번호
 * **username** (VARCHAR(45),NN,UQ) : 유저 id
 * **password** (VARCHAR (100),NN) : 유저 password
 * **enabled** (BIT,NN) : 유저의 활성화 유무
+
+### Role 테이블 (Authorization)
+* **id** (INT,PK,NN,AI) : id의 고유 번호
+* **name** (VARCHAR(45),NN,UQ) : 권한명

@@ -23,7 +23,7 @@ public class BoardController {
 
     @GetMapping("/")
     public String boardMainPage() {
-        return "redirect:/board/write";
+        return "redirect:/board/list";
     }
 
     @GetMapping("/board/write")
