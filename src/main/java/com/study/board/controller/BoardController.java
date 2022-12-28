@@ -6,12 +6,15 @@ import com.study.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class BoardController {
@@ -32,8 +35,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, Model model) {
+    public String boardWritePro(Board board, Model model) throws Exception {
         boardService.write(board);
+
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("redirectUrl", "/board/list");
         return "message";
@@ -44,10 +48,10 @@ public class BoardController {
      * page와 size를 넘겨줄 수 있다. ( @pageableDefault )
      */
     @GetMapping("/board/list")
-    public String boardList(Model model, Pageable pageable,
-                            @RequestParam(required = false,defaultValue = "") String searchText) {
+    public String boardList(Model model, @PageableDefault(sort="id",direction = Sort.Direction.DESC) Pageable pageable,
+                            @RequestParam(required = false, defaultValue = "") String searchText) {
 
-        Page<Board> list = boardRepository.findByTitleContainingOrContentContaining(searchText,searchText,pageable);
+        Page<Board> list = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
 
         int nowPage = list.getPageable().getPageNumber();
         int startPage = Math.max(nowPage - 2, 0);
@@ -84,7 +88,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) {
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) throws Exception {
 
         Board oldBoard = boardService.boardView(id); // 기존 객체 불러오기
         // 기존 객체에 덮어씌우기
