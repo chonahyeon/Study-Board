@@ -36,12 +36,14 @@
 
 
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:replace="fragments/common :: menu"></nav>
 <div class="layout">
-    <form th:action="@{/board/update/{id}(id=${article.id})}" method="post">
+    <form th:action="@{/board/update/{id}(id=${article.id})}" method="post" enctype="multipart/form-data">
         <p>제목</p>
         <input class="form-control" name="title" type="text" th:value="${article.title}">
         <p>내용</p>
         <textarea class="form-control" name="content" th:text="${article.content}"></textarea>
+        <input type="file" name="file">
         <button class="btn btn-primary" type="submit">수정 완료</button>
     </form>
 </div>

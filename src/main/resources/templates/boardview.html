@@ -17,6 +17,7 @@
     </div>
     <div class="card-body">
         <p class="card-text" th:text="${article.content}">내용</p>
+        <a class="btn btn-primary" th:href="@{${article.filepath}}">파일 보기</a>
         <a class="btn btn-primary" th:href="@{/board/modify/{id}(id = ${article.id})}">수정</a>
         <a class="btn btn-primary" th:href="@{/board/delete(id=${article.id})}">Delete</a>
     </div>

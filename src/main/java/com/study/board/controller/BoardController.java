@@ -35,8 +35,8 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, Model model) throws Exception {
-        boardService.write(board);
+    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception {
+        boardService.write(board, file);
 
         model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("redirectUrl", "/board/list");
@@ -48,7 +48,7 @@ public class BoardController {
      * page와 size를 넘겨줄 수 있다. ( @pageableDefault )
      */
     @GetMapping("/board/list")
-    public String boardList(Model model, @PageableDefault(sort="id",direction = Sort.Direction.DESC) Pageable pageable,
+    public String boardList(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                             @RequestParam(required = false, defaultValue = "") String searchText) {
 
         Page<Board> list = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
@@ -88,13 +88,13 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) throws Exception {
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model, MultipartFile file) throws Exception {
 
         Board oldBoard = boardService.boardView(id); // 기존 객체 불러오기
         // 기존 객체에 덮어씌우기
         oldBoard.setTitle(board.getTitle());
         oldBoard.setContent(board.getContent());
-        boardService.write(oldBoard);
+        boardService.write(oldBoard, file);
 
         model.addAttribute("message", "글 수정이 완료되었습니다.");
         model.addAttribute("redirectUrl", "/board/list");
