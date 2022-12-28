@@ -39,11 +39,18 @@
   - [X] 회원 테이블과 연동 
   - [X] 회원 가입 버튼 생성
 
+`12월 29일까지 구현 사항`
+- [ ] 이미지 파일 업로드 기능 추가
+- [X] 게시글 최신 순으로 정렬
+
+
 
 ### Board 테이블
 * **id** (INT,PK,NN,AI) : 게시물의 고유 번호
 * **title** (VARCHAR(45),NN) : 게시물의 제목
 * **content** (TEXT,NN) : 게시물의 내용
+* **filename** (VARCHAR(150)) : 파일 이름
+* **filepath** (VARCHAR(300)) : 파일 경로
 
 ### User 테이블
 * **id** (INT,PK,NN,AI) : id의 고유 번호

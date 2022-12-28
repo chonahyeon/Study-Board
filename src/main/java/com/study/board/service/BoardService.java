@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class BoardService {
@@ -18,7 +17,7 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     // 게시글 작성
-    public void write(Board board) {
+    public void write(Board board){
         boardRepository.save(board);
     }
 
